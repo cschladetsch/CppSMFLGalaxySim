@@ -13,6 +13,7 @@ A high-performance 2D visual display system showcasing modern C++23 features wit
 - **Multi-threaded Physics Engine**: Parallel N-body gravitational simulation
 - **Real-time Interaction**: Add celestial bodies, adjust time dilation, switch presets
 - **Modern C++23**: Utilizing concepts, ranges, and modern C++ features
+- **Demo Mode**: Automatic showcase cycling through all 5 presets (8 seconds each)
 
 ## Building
 
@@ -39,6 +40,7 @@ The build system automatically:
 ./r                  # Build and run in Release mode
 ./r Debug            # Build and run in Debug mode
 ./r Release --fullscreen  # Run fullscreen
+./r --demo           # Run demo mode (cycles through all presets automatically)
 ```
 
 ### Test

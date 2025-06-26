@@ -39,6 +39,8 @@ public:
 
   void OnActivate() override;
   void OnDeactivate() override;
+  
+  void EnableDemoMode() { demoMode_ = true; }
 
 private:
   void CreateGalaxyPreset(int preset);
@@ -75,6 +77,11 @@ private:
   bool showTrails_ = true;
   bool showGrid_ = false;
   float particleSize_ = 1.0f;
+  
+  // Demo mode
+  bool demoMode_ = false;
+  float demoTimer_ = 0.0f;
+  static constexpr float DEMO_DURATION = 8.0f;
 };
 
 } // namespace Modes

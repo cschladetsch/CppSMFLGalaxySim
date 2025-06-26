@@ -446,6 +446,17 @@ void ParticleGalaxyMode::Update(float deltaTime) {
   if (paused_)
     return;
 
+  // Handle demo mode
+  if (demoMode_) {
+    demoTimer_ += deltaTime;
+    if (demoTimer_ >= DEMO_DURATION) {
+      demoTimer_ = 0.0f;
+      currentPreset_ = (currentPreset_ + 1) % NUM_PRESETS;
+      CreateGalaxyPreset(currentPreset_);
+      spdlog::info("Demo mode: Switched to preset {}", currentPreset_ + 1);
+    }
+  }
+
   float scaledDeltaTime = deltaTime * timeDilation_;
 
   // Update physics in parallel

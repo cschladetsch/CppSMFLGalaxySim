@@ -52,6 +52,11 @@ public:
   [[nodiscard]] InputManager &GetInputManager() noexcept {
     return *inputManager_;
   }
+  [[nodiscard]] VisualMode* GetCurrentMode() noexcept {
+    return currentModeIndex_ < visualModes_.size() 
+        ? visualModes_[currentModeIndex_].get() 
+        : nullptr;
+  }
 
 private:
   void ProcessEvents();

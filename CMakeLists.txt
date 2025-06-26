@@ -90,6 +90,8 @@ set(SOURCES
     Source/Core/ThreadPool.cpp
     Source/Graphics/ParticleSystem.cpp
     Source/Graphics/PostProcessing.cpp
+    Source/Graphics/Shader.cpp
+    Source/Graphics/GPUParticleSystem.cpp
     Source/Physics/PhysicsEngine.cpp
     Source/Audio/AudioAnalyzer.cpp
     Source/Input/InputManager.cpp
@@ -106,6 +108,8 @@ set(HEADERS
     Include/Core/ThreadPool.hpp
     Include/Graphics/ParticleSystem.hpp
     Include/Graphics/PostProcessing.hpp
+    Include/Graphics/Shader.hpp
+    Include/Graphics/GPUParticleSystem.hpp
     Include/Physics/PhysicsEngine.hpp
     Include/Audio/AudioAnalyzer.hpp
     Include/Input/InputManager.hpp

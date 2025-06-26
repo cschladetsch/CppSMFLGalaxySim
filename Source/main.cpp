@@ -18,6 +18,8 @@ int main(int argc, char *argv[]) {
         .framerate_limit = 0, // Unlimited when vsync is on
         .antialiasing_level = 8};
 
+    bool demoMode = false;
+
     // Parse command line arguments
     for (int i = 1; i < argc; ++i) {
       std::string arg = argv[i];
@@ -30,6 +32,9 @@ int main(int argc, char *argv[]) {
       } else if (arg == "--no-vsync") {
         config.vsync = false;
         config.framerate_limit = 60;
+      } else if (arg == "--demo") {
+        demoMode = true;
+        spdlog::info("Demo mode enabled - will cycle through all configurations");
       }
     }
 
@@ -43,6 +48,15 @@ int main(int argc, char *argv[]) {
     // Register visual modes
     displaySystem.RegisterVisualMode(
         std::make_unique<Modes::ParticleGalaxyMode>(displaySystem));
+
+    // Set demo mode flag if enabled
+    if (demoMode) {
+      auto* galaxyMode = dynamic_cast<Modes::ParticleGalaxyMode*>(
+          displaySystem.GetCurrentMode());
+      if (galaxyMode) {
+        galaxyMode->EnableDemoMode();
+      }
+    }
 
     displaySystem.Run();
     displaySystem.Shutdown();
