@@ -32,7 +32,9 @@ public:
     using return_type = std::invoke_result_t<F, Args...>;
 
     auto task = std::make_shared<std::packaged_task<return_type()>>(
-        std::bind(std::forward<F>(func), std::forward<Args>(args)...));
+        [func = std::forward<F>(func), ...args = std::forward<Args>(args)]() mutable {
+            return func(args...);
+        });
 
     std::future<return_type> result = task->get_future();
 

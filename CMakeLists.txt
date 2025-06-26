@@ -106,6 +106,7 @@ set(HEADERS
     Include/Core/Renderer.hpp
     Include/Core/Camera2D.hpp
     Include/Core/ThreadPool.hpp
+    Include/Graphics/Particle.hpp
     Include/Graphics/ParticleSystem.hpp
     Include/Graphics/PostProcessing.hpp
     Include/Graphics/Shader.hpp

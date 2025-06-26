@@ -14,8 +14,11 @@ Core engine interfaces and classes:
 
 ### Graphics/
 Graphics components and effects:
+- `Particle.hpp` - Basic particle data structure
 - `ParticleSystem.hpp` - Particle system with emitters and updaters
-- `PostProcessing.hpp` - Post-processing effects interface
+- `PostProcessing.hpp` - Post-processing effects interface (Bloom, HDR)
+- `Shader.hpp` - Shader loading and uniform management
+- `GPUParticleSystem.hpp` - GPU-accelerated particle system interface
 
 ### Physics/
 Physics simulation interfaces:

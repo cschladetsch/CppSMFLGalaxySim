@@ -8,6 +8,34 @@
 
 namespace Core {
 
+struct KeyEvent {
+  sf::Keyboard::Key code;
+  bool alt;
+  bool control;
+  bool shift;
+  bool system;
+};
+
+struct MouseButtonEvent {
+  sf::Mouse::Button button;
+  glm::vec2 position;
+};
+
+struct MouseMoveEvent {
+  glm::vec2 position;
+  glm::vec2 delta;
+};
+
+struct MouseWheelEvent {
+  float delta;
+  glm::vec2 position;
+};
+
+struct SizeEvent {
+  unsigned int width;
+  unsigned int height;
+};
+
 struct InputEvent {
   enum class Type {
     KeyPressed,
@@ -22,33 +50,11 @@ struct InputEvent {
   Type type;
 
   union {
-    struct {
-      sf::Keyboard::Key code;
-      bool alt;
-      bool control;
-      bool shift;
-      bool system;
-    } key;
-
-    struct {
-      sf::Mouse::Button button;
-      glm::vec2 position;
-    } mouseButton;
-
-    struct {
-      glm::vec2 position;
-      glm::vec2 delta;
-    } mouseMove;
-
-    struct {
-      float delta;
-      glm::vec2 position;
-    } mouseWheel;
-
-    struct {
-      unsigned int width;
-      unsigned int height;
-    } size;
+    KeyEvent key;
+    MouseButtonEvent mouseButton;
+    MouseMoveEvent mouseMove;
+    MouseWheelEvent mouseWheel;
+    SizeEvent size;
   };
 };
 

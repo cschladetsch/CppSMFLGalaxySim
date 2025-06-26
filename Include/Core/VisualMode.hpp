@@ -7,7 +7,7 @@
 namespace Core {
 
 class DisplaySystem;
-class InputEvent;
+struct InputEvent;
 
 class VisualMode {
 public:

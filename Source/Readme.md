@@ -15,7 +15,9 @@ Core engine systems that power the application:
 ### Graphics/
 Graphics and rendering components:
 - `ParticleSystem.cpp` - High-performance particle rendering system
-- `PostProcessing.cpp` - Post-processing effects pipeline
+- `PostProcessing.cpp` - Post-processing effects pipeline (Bloom, HDR)
+- `Shader.cpp` - Shader management and compilation system
+- `GPUParticleSystem.cpp` - GPU-accelerated particle system with shaders
 
 ### Physics/
 Physics simulation components:
