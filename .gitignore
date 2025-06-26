@@ -1,0 +1,165 @@
+# Build directories
+build/
+Build/
+cmake-build-*/
+out/
+Bin/
+bin/
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.code-workspace
+
+# Visual Studio
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# CLion
+.idea/
+cmake-build-*/
+
+# Qt Creator
+*.pro.user
+*.autosave
+
+# Compiled files
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.app
+*.pdb
+*.ilk
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+core
+vgcore.*
+
+# Profiling
+gmon.out
+*.gcda
+*.gcno
+*.gcov
+perf.data
+perf.data.old
+
+# Package files
+*.tar.gz
+*.zip
+*.7z
+*.rar
+*.deb
+*.rpm
+
+# Log files
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+tmp/
+temp/
+
+# External dependencies
+External/
+external/
+third_party/
+vendor/
+libs/
+
+# Generated documentation
+docs/html/
+docs/latex/
+Doxyfile.bak
+*.dot
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.python-version
+
+# Node modules (if using any web tools)
+node_modules/
+package-lock.json
+
+# Asset files that might be too large
+*.psd
+*.xcf
+*.blend
+*.max
+*.mb
+*.ma
+*.fbx
+*.obj
+*.3ds
+
+# Media files
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+*.mp3
+*.wav
+*.ogg
+
+# Backup files
+*.bak
+*.backup
+*_backup
+*.old
+
+# OS generated files
+Thumbs.db
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# Coverage reports
+*.gcov
+*.lcov
+coverage/
+htmlcov/
+.coverage
+
+# Benchmark results
+benchmarks/results/
+*.bench
+
+# Local configuration
+.env
+.env.local
+config.local.*
