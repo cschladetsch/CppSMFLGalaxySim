@@ -37,10 +37,11 @@ The build system automatically:
 
 ### Run
 ```bash
-./r                  # Build and run in Release mode
-./r Debug            # Build and run in Debug mode
+./r                  # Build and run in Release mode (800x600 by default)
+./r Debug            # Build and run in Debug mode (800x600 by default)
 ./r Release --fullscreen  # Run fullscreen
 ./r --demo           # Run demo mode (cycles through all presets automatically)
+./r --width 1920 --height 1080  # Run with custom resolution
 ```
 
 ### Test

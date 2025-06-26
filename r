@@ -19,9 +19,16 @@ if ./b "$BUILD_TYPE"; then
     echo -e "${GREEN}Build successful, running CppSFMLVisualizer...${NC}"
     echo "----------------------------------------"
     
-    # Run the executable
+    # Run the executable with default resolution if not specified
     if [ -f "Bin/CppSFMLVisualizer" ]; then
-        ./Bin/CppSFMLVisualizer "$@"
+        # Check if --width or --height are already specified
+        if [[ ! "$@" =~ --width ]] && [[ ! "$@" =~ --height ]]; then
+            # Add default resolution
+            ./Bin/CppSFMLVisualizer --width 800 --height 600 "$@"
+        else
+            # Use provided arguments as-is
+            ./Bin/CppSFMLVisualizer "$@"
+        fi
     else
         echo -e "${RED}Executable not found at Bin/CppSFMLVisualizer${NC}"
         exit 1

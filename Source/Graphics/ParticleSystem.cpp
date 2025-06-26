@@ -6,7 +6,7 @@ namespace Graphics {
 ParticleSystem::ParticleSystem(std::size_t maxParticles)
     : particles_(maxParticles), maxParticles_(maxParticles),
       vertices_(sf::PrimitiveType::Triangles), blendMode_(sf::BlendAdd),
-      gravity_(0.0f, 0.0f), damping_(0.99f), emissionAccumulator_(0.0f) {
+      gravity_(0.0f, 0.0f), damping_(0.99f) {
 
   // Reserve space for triangles (6 segments per particle, 3 vertices per
   // triangle)
