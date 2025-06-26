@@ -1,4 +1,4 @@
-# CppSFMLVisualizer
+# CppSMFLGalaxySim
 
 A high-performance 2D visual display system showcasing modern C++23 features with SFML, featuring a realistic Milky Way galaxy simulation.
 
