@@ -48,10 +48,6 @@ The build system automatically:
 ./t Debug -s # Run tests with detailed output
 ```
 
-## Demo
-
-![Particle Galaxy Visualization](Assets/Demo1.fig)
-
 ## Controls
 
 ### Particle Galaxy Mode
