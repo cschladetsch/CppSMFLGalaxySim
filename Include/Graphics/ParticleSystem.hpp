@@ -54,6 +54,10 @@ public:
 
   void Clear();
   void SetBlendMode(sf::BlendMode mode) { blendMode_ = mode; }
+  
+  // Direct access for performance-critical updates
+  std::vector<Particle>& GetParticles() { return particles_; }
+  const std::vector<Particle>& GetParticles() const { return particles_; }
 
   [[nodiscard]] std::size_t GetActiveParticleCount() const;
   [[nodiscard]] std::size_t GetMaxParticles() const { return maxParticles_; }
@@ -77,7 +81,6 @@ private:
 
   glm::vec2 gravity_{0.0f, 0.0f};
   float damping_ = 0.99f;
-  float emissionAccumulator_ = 0.0f;
 
   std::mt19937 rng_{std::random_device{}()};
 };

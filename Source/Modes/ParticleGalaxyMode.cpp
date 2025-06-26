@@ -26,14 +26,16 @@ ParticleGalaxyMode::ParticleGalaxyMode(Core::DisplaySystem &displaySystem)
     : VisualMode(displaySystem),
       particleSystem_(std::make_unique<Graphics::ParticleSystem>(30000)),
       threadPool_(std::make_unique<Core::ThreadPool>()), massiveObjects_(),
-      galaxyParticles_(), rng_(std::random_device{}()) {}
+      rng_(std::random_device{}()) {}
 
 ParticleGalaxyMode::~ParticleGalaxyMode() = default;
 
 void ParticleGalaxyMode::Initialize() {
   spdlog::info("Initializing Particle Galaxy Mode");
-
-  galaxyParticles_.reserve(30000);
+  
+  // We'll handle physics manually for N-body simulation
+  particleSystem_->SetGravity(glm::vec2(0.0f, 0.0f));
+  particleSystem_->SetDamping(1.0f);
 
   // Set particle system blend mode for glowing effect
   particleSystem_->SetBlendMode(sf::BlendAdd);
@@ -46,7 +48,6 @@ void ParticleGalaxyMode::CreateGalaxyPreset(int preset) {
   currentPreset_ = preset;
 
   // Clear existing particles
-  galaxyParticles_.clear();
   massiveObjects_.clear();
   particleSystem_->Clear();
 
@@ -136,7 +137,6 @@ void ParticleGalaxyMode::CreateGalaxyPreset(int preset) {
       particle.lifetime = 1000000.0f;
       particle.active = true;
 
-      galaxyParticles_.push_back(particle);
       particleSystem_->EmitParticle(particle);
     }
 
@@ -277,7 +277,6 @@ void ParticleGalaxyMode::CreateGalaxyPreset(int preset) {
       particle.lifetime = 1000000.0f;
       particle.active = true;
 
-      galaxyParticles_.push_back(particle);
       particleSystem_->EmitParticle(particle);
     }
 
@@ -322,13 +321,12 @@ void ParticleGalaxyMode::CreateGalaxyPreset(int preset) {
         particle.lifetime = 1000000.0f;
         particle.active = true;
 
-        galaxyParticles_.push_back(particle);
         particleSystem_->EmitParticle(particle);
       }
     }
 
     spdlog::info("Created Milky Way galaxy with {} stars",
-                 galaxyParticles_.size());
+                 particleSystem_->GetActiveParticleCount());
     break;
   }
 
@@ -383,7 +381,6 @@ void ParticleGalaxyMode::CreateGalaxyPreset(int preset) {
       particle.lifetime = 1000000.0f;
       particle.active = true;
 
-      galaxyParticles_.push_back(particle);
       particleSystem_->EmitParticle(particle);
     }
     break;
@@ -426,7 +423,6 @@ void ParticleGalaxyMode::CreateGalaxyPreset(int preset) {
       particle.lifetime = 1000000.0f;
       particle.active = true;
 
-      galaxyParticles_.push_back(particle);
       particleSystem_->EmitParticle(particle);
     }
     break;
@@ -439,7 +435,7 @@ void ParticleGalaxyMode::CreateGalaxyPreset(int preset) {
 
   spdlog::info(
       "Created galaxy preset {} with {} particles and {} massive objects",
-      preset, galaxyParticles_.size(), massiveObjects_.size());
+      preset, particleSystem_->GetActiveParticleCount(), massiveObjects_.size());
 }
 
 void ParticleGalaxyMode::Update(float deltaTime) {
@@ -494,14 +490,14 @@ void ParticleGalaxyMode::UpdatePhysics(float deltaTime) {
   }
 
   // Update particles in parallel batches
-  const std::size_t batchSize =
-      galaxyParticles_.size() / threadPool_->GetNumThreads();
+  auto& particles = particleSystem_->GetParticles();
+  const std::size_t batchSize = particles.size() / threadPool_->GetNumThreads();
   std::vector<std::future<void>> futures;
 
   for (std::size_t i = 0; i < threadPool_->GetNumThreads(); ++i) {
     std::size_t start = i * batchSize;
     std::size_t end = (i == threadPool_->GetNumThreads() - 1)
-                          ? galaxyParticles_.size()
+                          ? particles.size()
                           : (i + 1) * batchSize;
 
     futures.push_back(threadPool_->Submit([this, start, end, deltaTime]() {
@@ -513,21 +509,15 @@ void ParticleGalaxyMode::UpdatePhysics(float deltaTime) {
   for (auto &future : futures) {
     future.wait();
   }
-
-  // Update particle system with new positions
-  particleSystem_->Clear();
-  for (const auto &particle : galaxyParticles_) {
-    if (particle.active) {
-      particleSystem_->EmitParticle(particle);
-    }
-  }
 }
 
 void ParticleGalaxyMode::UpdateParticlePhysics(std::size_t start,
                                                std::size_t end,
                                                float deltaTime) {
-  for (std::size_t i = start; i < end && i < galaxyParticles_.size(); ++i) {
-    if (!galaxyParticles_[i].active)
+  auto& particles = particleSystem_->GetParticles();
+  
+  for (std::size_t i = start; i < end && i < particles.size(); ++i) {
+    if (!particles[i].active)
       continue;
 
     glm::vec2 totalForce(0.0f, 0.0f);
@@ -535,22 +525,22 @@ void ParticleGalaxyMode::UpdateParticlePhysics(std::size_t start,
     // Calculate force from massive objects only (optimization)
     for (const auto &massiveObject : massiveObjects_) {
       totalForce += CalculateGravitationalForce(
-          galaxyParticles_[i].position, massiveObject.position,
-          galaxyParticles_[i].mass, massiveObject.mass);
+          particles[i].position, massiveObject.position,
+          particles[i].mass, massiveObject.mass);
     }
 
-    glm::vec2 acceleration = totalForce / galaxyParticles_[i].mass;
-    galaxyParticles_[i].velocity += acceleration * deltaTime;
-    galaxyParticles_[i].position += galaxyParticles_[i].velocity * deltaTime;
+    glm::vec2 acceleration = totalForce / particles[i].mass;
+    particles[i].velocity += acceleration * deltaTime;
+    particles[i].position += particles[i].velocity * deltaTime;
 
     // Check if particle is too far from center (remove if so)
     auto windowSize = GetDisplaySystem().GetWindow().getSize();
     glm::vec2 center(windowSize.x * 0.5f, windowSize.y * 0.5f);
     float distanceFromCenter =
-        glm::length(galaxyParticles_[i].position - center);
+        glm::length(particles[i].position - center);
 
     if (distanceFromCenter > windowSize.x * 1.5f) {
-      galaxyParticles_[i].active = false;
+      particles[i].active = false;
     }
   }
 }

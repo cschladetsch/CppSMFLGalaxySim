@@ -58,7 +58,6 @@ private:
   std::unique_ptr<Core::ThreadPool> threadPool_;
 
   std::vector<CelestialBody> massiveObjects_;
-  std::vector<Graphics::Particle> galaxyParticles_;
 
   float timeDilation_ = 1.0f;
   float gravitationalConstant_ = 100.0f;
