@@ -7,8 +7,8 @@ namespace Audio {
 
 class AudioAnalyzer {
 public:
-    AudioAnalyzer() = default;
-    ~AudioAnalyzer() = default;
+  AudioAnalyzer() = default;
+  ~AudioAnalyzer() = default;
 };
 
 } // namespace Audio

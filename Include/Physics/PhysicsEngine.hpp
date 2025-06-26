@@ -6,8 +6,8 @@ namespace Physics {
 
 class PhysicsEngine {
 public:
-    PhysicsEngine() = default;
-    ~PhysicsEngine() = default;
+  PhysicsEngine() = default;
+  ~PhysicsEngine() = default;
 };
 
 } // namespace Physics
